@@ -1,5 +1,6 @@
 import uuid
 import jwt
+import os
 from datetime import datetime, timezone, timedelta
 from celery.utils.log import get_task_logger
 
@@ -12,6 +13,9 @@ from util import RetryableError, BenchMarkTask, process_error, NonRetryableError
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # TODO: receive configs and credentials via command line arguments or environment variables
 
 
@@ -22,21 +26,37 @@ app = Flask(__name__)
 api = Api(app)
 logger = get_task_logger(__name__)
 
-app.config['celery_broker_url'] = 'redis://localhost:6379'
-app.config['celery_result_backend'] = 'redis://localhost:6379'
+app.config['celery_broker_url'] = os.environ.get("CELERY_BROKER_URL")
+app.config['celery_result_backend'] = os.environ.get("CELERY_RESULT_BACKEND")
 
-app.config['SECRET_KEY'] = '8454e5a14e6c4a3490e85f8cd0737fa0'
-app.config['APP_DB_HOST'] = 'localhost'
-app.config['APP_DB_NAME'] = 'tuning'
-app.config['APP_DB_USER'] = 'test'
-app.config['APP_DB_PASSWORD'] = 'test'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['APP_DB_HOST'] = os.environ.get("APP_DB_HOST")
+app.config['APP_DB_NAME'] = os.environ.get("APP_DB_NAME")
+app.config['APP_DB_USER'] = os.environ.get("APP_DB_USER")
+app.config['APP_DB_PASSWORD'] = os.environ.get("APP_DB_PASSWORD")
 
-app.config['BENCHMARK_DB_HOST'] = 'localhost'
+app.config['BENCHMARK_DB_HOST'] = os.environ.get("BENCHMARK_DB_HOST")
 # allow only select
-app.config['BENCHMARK_DB_USER'] = 'read_user'
-app.config['BENCHMARK_DB_PASSWORD'] = 'read_user'
-app.config['BENCHMARK_DB_NAME'] = 'tuning'
-app.config['BENCHMARK_TIMEOUT'] = 5000
+app.config['BENCHMARK_DB_USER'] = os.environ.get("BENCHMARK_DB_USER")
+app.config['BENCHMARK_DB_PASSWORD'] = os.environ.get("BENCHMARK_DB_PASSWORD")
+app.config['BENCHMARK_DB_NAME'] = os.environ.get("BENCHMARK_DB_NAME")
+app.config['BENCHMARK_TIMEOUT'] = os.environ.get("BENCHMARK_TIMEOUT")
+
+# app.config['celery_broker_url'] = 'redis://localhost:6379'
+# app.config['celery_result_backend'] = 'redis://localhost:6379'
+#
+# app.config['SECRET_KEY'] = '8454e5a14e6c4a3490e85f8cd0737fa0'
+# app.config['APP_DB_HOST'] = 'localhost'
+# app.config['APP_DB_NAME'] = 'tuning'
+# app.config['APP_DB_USER'] = 'test'
+# app.config['APP_DB_PASSWORD'] = 'jw8s0F4'
+#
+# app.config['BENCHMARK_DB_HOST'] = 'localhost'
+# # allow only select
+# app.config['BENCHMARK_DB_USER'] = 'test'
+# app.config['BENCHMARK_DB_PASSWORD'] = 'jw8s0F4'
+# app.config['BENCHMARK_DB_NAME'] = 'tuning'
+# app.config['BENCHMARK_TIMEOUT'] = 5000
 
 CHALLENGE_TYPE_SLOWEST_QUERY = 1
 
