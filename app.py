@@ -167,8 +167,8 @@ class Login(Resource):
 def benchmark_query(baseline_query: str, query: str, submission_id):
     try:
         conn = get_db_connection(host=app.config.get('APP_DB_HOST'), database=app.config.get('APP_DB_NAME'),
-                                 user='read_user',
-                                 password='read_user',
+                                 user=app.config.get('BENCHMARK_DB_USER'),
+                                 password=app.config.get('BENCHMARK_DB_PASSWORD'),
                                  timeout=app.config.get('BENCHMARK_TIMEOUT'), readonly=True)
         cur = execute_query(db_conn=conn, query=f"EXPLAIN ANALYZE {query}")
         explain_result = cur.fetchall()
