@@ -590,7 +590,7 @@ class home(Resource):
     def get(self):
         print('connected to home')
         connected=True
-        make_response(jsonify({'connected': connected}), 201)
+        return make_response(jsonify({'connected': connected}), 201)
 
 
 api.add_resource(Submission, '/submission/<submission_id>')
