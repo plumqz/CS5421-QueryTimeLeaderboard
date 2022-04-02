@@ -26,8 +26,8 @@ app = Flask(__name__)
 api = Api(app)
 logger = get_task_logger(__name__)
 
-app.config['celery_broker_url'] = os.environ.get("CELERY_BROKER_URL")
-app.config['celery_result_backend'] = os.environ.get("CELERY_RESULT_BACKEND")
+app.config['celery_broker_url'] = os.environ.get("REDIS_URL")
+app.config['celery_result_backend'] = os.environ.get("REDIS_URL")
 
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 app.config['APP_DB_HOST'] = os.environ.get("APP_DB_HOST")
