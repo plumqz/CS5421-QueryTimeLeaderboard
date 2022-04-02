@@ -1,4 +1,5 @@
 import os
 
+
 APP_DB_HOST=os.environ.get('DATABASE_URL')
 BENCHMARK_DB_HOST=os.environ.get('HEROKU_POSTGRESQL_COBALT_URL')
