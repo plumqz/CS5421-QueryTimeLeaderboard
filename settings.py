@@ -12,3 +12,6 @@ BENCHMARK_DB_HOST=url_benchmark.hostname
 BENCHMARK_DB_NAME=url_benchmark.path[1:]
 BENCHMARK_DB_USER = url_benchmark.username
 BENCHMARK_DB_PASSWORD = url_benchmark.password
+
+CELERY_BROKER_URL=os.environ.get("REDIS_URL")
+CELERY_RESULT_BACKEND=os.environ.get("REDIS_URL")
