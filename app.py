@@ -586,6 +586,11 @@ class ChallengeType(Resource):
             print(f'Challenge type query failed, error: {error}')
             return abort(500, message="Internal Server Error")
 
+class home(Resource):
+    def get(self):
+        print('connected to home')
+        make_response(jsonify({'connected': 'true'}), 201)
+
 
 api.add_resource(Submission, '/submission/<submission_id>')
 api.add_resource(SubmissionList, '/submissions')
@@ -594,6 +599,7 @@ api.add_resource(ChallengeList, '/challenges')
 api.add_resource(ChallengeType, '/challenge_type/<challenge_type>')
 api.add_resource(ChallengeTypeList, '/challenge_types')
 api.add_resource(Login, '/login')
+api.add_resource(home, '/')
 
 if __name__ == '__main__':
     app.run(debug=True)
